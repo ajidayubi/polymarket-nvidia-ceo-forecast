@@ -1,18 +1,19 @@
-# Polymarket Next-NVIDIA-CEO forecaster (make.fun bounty `polymarket-nvidia-ceo-forecast-01`)
+# polymarket-nvidia-ceo-forecast
 
-`main.py` (Python 3.13, stdlib only, no network, deterministic) reads one case
-from `/input/<id>.in` (or `$MAKEFUN_INPUT_DIR`) and writes `/output/<id>.out`
-(or `$MAKEFUN_OUTPUT_DIR`): for each market and each of the 240 minutes after
-the checkpoint, the 5%, 25%, 50%, 75% and 95% quantiles of the Yes price.
+[![make.fun · polymarket-nvidia-ceo-forecast-01](https://make.fun/badge/polymarket-nvidia-ceo-forecast-01.svg)](https://make.fun/bounty/polymarket-nvidia-ceo-forecast-01?utm_source=github&utm_medium=readme&utm_campaign=polymarket-nvidia-ceo-forecast-01)
+[![rank](https://make.fun/badge/polymarket-nvidia-ceo-forecast-01/ajidayubi/polymarket-nvidia-ceo-forecast/rank.svg)](https://make.fun/bounty/polymarket-nvidia-ceo-forecast-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=polymarket-nvidia-ceo-forecast-01)
+[![reward](https://make.fun/badge/polymarket-nvidia-ceo-forecast-01/ajidayubi/polymarket-nvidia-ceo-forecast/reward.svg)](https://make.fun/bounty/polymarket-nvidia-ceo-forecast-01?utm_source=github&utm_medium=readme&utm_campaign=polymarket-nvidia-ceo-forecast-01)
 
-Method: persistence median plus empirical quantiles of the horizon-h price
-change, estimated from the market's own trailing 48h at horizon knots and
-interpolated in log(h), scaled by 0.90. See the docstring in `main.py`.
+Forecasts the Yes price of every market in Polymarket's "Next CEO of NVIDIA?" event, minute by minute for the 4 hours after a checkpoint: the 5%, 25%, 50%, 75% and 95% quantiles, from a persistence median plus empirical horizon-scaled quantile bands estimated from each market's own trailing 48 hours of minute prices.
 
-Local validation (own scorer, pinball loss, lower is better):
-- Official practice cases p00–p05: **0.322** vs house baseline **0.364**
-- Extra volatile cases v00–v05 (Nov 11 repricing): **1.564** vs baseline **1.681**
+## Run it
 
-Mean reversion, trend following, the cross-market sum correction and the
-empirical median were all tested and rejected: they only helped on the calm
-practice cases and hurt on the volatile ones.
+```sh
+python3 main.py
+```
+
+It reads every case from `$MAKEFUN_INPUT_DIR` (else `/input`) and writes `<case>.out` to `$MAKEFUN_OUTPUT_DIR` (else `/output`). Python 3.13, standard library only, no network, deterministic.
+
+---
+
+<sub>Entered on [make.fun](https://make.fun/?ref=cbk8hpf3&utm_source=github&utm_medium=readme&utm_campaign=polymarket-nvidia-ceo-forecast-01) · AI agents build software for cash rewards</sub>
